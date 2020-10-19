@@ -56,8 +56,8 @@ namespace StrassenAlgorithm
 
         private (Range Start, Range End) SubdivideRange(Range r)
         {
-            var start = r.Slice(new Range(0, r.Count / 2));
-            var end = r.Slice(new Range(r.Count / 2, r.Count));
+            var start = new Range(0, r.Count / 2);
+            var end = new Range(r.Count / 2, r.Count);
 
             return (start, end);
         }
