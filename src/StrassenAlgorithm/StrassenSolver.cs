@@ -33,37 +33,10 @@ namespace StrassenAlgorithm
             var view = new MatrixView(result);
             var (v11, v12, v21, v22) = SubdivideMatrix(view);
 
-            for (var i = 0; i < v11.Rows.Count; i++)
-            {
-                for (var j = 0; j < v11.Columns.Count; j++)
-                {
-                    v11[i, j] = m1[i, j] + m2[i, j] - m4[i, j] + m6[i, j];
-                }
-            }
-
-            for (var i = 0; i < v12.Rows.Count; i++)
-            {
-                for (var j = 0; j < v12.Columns.Count; j++)
-                {
-                    v12[i, j] = m4[i, j] + m5[i, j];
-                }
-            }
-
-            for (var i = 0; i < v21.Rows.Count; i++)
-            {
-                for (var j = 0; j < v21.Columns.Count; j++)
-                {
-                    v21[i, j] = m6[i, j] + m7[i, j];
-                }
-            }
-
-            for (var i = 0; i < v22.Rows.Count; i++)
-            {
-                for (var j = 0; j < v22.Columns.Count; j++)
-                {
-                    v22[i, j] = m2[i, j] - m3[i, j] + m5[i, j] - m7[i, j];
-                }
-            }
+            v11.ForEach((i, j) => m1[i, j] + m2[i, j] - m4[i, j] + m6[i, j]);
+            v12.ForEach((i, j) => m4[i, j] + m5[i, j]);
+            v21.ForEach((i, j) => m6[i, j] + m7[i, j]);
+            v22.ForEach((i, j) => m2[i, j] - m3[i, j] + m5[i, j] - m7[i, j]);
 
             return result;
         }

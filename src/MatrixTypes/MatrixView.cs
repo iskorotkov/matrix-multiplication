@@ -1,4 +1,6 @@
-﻿namespace MatrixTypes
+﻿using System;
+
+namespace MatrixTypes
 {
     public readonly struct MatrixView
     {
@@ -21,6 +23,17 @@
 
         public MatrixView Slice(Range rows, Range columns) =>
             new MatrixView(_data, Rows.Slice(rows), Columns.Slice(columns));
+
+        public void ForEach(Func<int, int, double> f)
+        {
+            for (var i = 0; i < Rows.Count; i++)
+            {
+                for (var j = 0; j < Columns.Count; j++)
+                {
+                    this[i, j] = f(i, j);
+                }
+            }
+        }
 
         public static double[,] operator +(MatrixView a, MatrixView b)
         {
