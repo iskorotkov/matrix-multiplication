@@ -18,13 +18,8 @@ namespace StrassenAlgorithm.Tests
 
             var expected = DenseMatrix.OfArray(a) * DenseMatrix.OfArray(b);
             var actual = _solver.Multiply(a, b);
-            var diff = new MatrixView(actual) - new MatrixView(expected.ToArray());
 
-            foreach (var d in diff)
-            {
-                d.ShouldBeLessThan(1e-10);
-                d.ShouldBeGreaterThan(-1e-10);
-            }
+            EnsureAlmostEqual(actual, expected.ToArray());
         }
 
         [Theory, InlineData(2), InlineData(4), InlineData(16), InlineData(32)]
@@ -34,12 +29,18 @@ namespace StrassenAlgorithm.Tests
 
             var expected = DenseMatrix.OfArray(a) * DenseMatrix.OfArray(b);
             var actual = _solver.Multiply(a, b);
-            var diff = new MatrixView(actual) - new MatrixView(expected.ToArray());
+
+            EnsureAlmostEqual(actual, expected.ToArray());
+        }
+
+        private static void EnsureAlmostEqual(double[,] actual, double[,] expected)
+        {
+            var diff = new MatrixView(actual) - new MatrixView(expected);
 
             foreach (var d in diff)
             {
-                d.ShouldBeLessThan(1e-10);
-                d.ShouldBeGreaterThan(-1e-10);
+                d.ShouldBeLessThan(1e-6);
+                d.ShouldBeGreaterThan(-1e-6);
             }
         }
     }
