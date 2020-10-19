@@ -24,6 +24,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrassenAlgorithm", "src\St
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrassenAlgorithm.Tests", "tests\StrassenAlgorithm.Tests\StrassenAlgorithm.Tests.csproj", "{F4CAD6A2-50E0-43A8-80F1-DECF6342BBB3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGenerator", "src\TestGenerator\TestGenerator.csproj", "{FD13FFE3-6632-4118-8C20-2EC5869EE16C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,10 @@ Global
 		{F4CAD6A2-50E0-43A8-80F1-DECF6342BBB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4CAD6A2-50E0-43A8-80F1-DECF6342BBB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4CAD6A2-50E0-43A8-80F1-DECF6342BBB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD13FFE3-6632-4118-8C20-2EC5869EE16C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD13FFE3-6632-4118-8C20-2EC5869EE16C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD13FFE3-6632-4118-8C20-2EC5869EE16C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD13FFE3-6632-4118-8C20-2EC5869EE16C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +66,7 @@ Global
 		{F5869F03-7654-414D-B57C-4923938F8783} = {2061BEF2-34FC-4F33-994F-4AB228D00285}
 		{567DAEE6-56F8-4BDA-94D9-E74ADDBE40FA} = {36DFAE3A-9905-49A4-925B-8CF7BAA0FA9C}
 		{F4CAD6A2-50E0-43A8-80F1-DECF6342BBB3} = {2061BEF2-34FC-4F33-994F-4AB228D00285}
+		{FD13FFE3-6632-4118-8C20-2EC5869EE16C} = {36DFAE3A-9905-49A4-925B-8CF7BAA0FA9C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F7D08C7A-786E-4995-A6DC-C6B697E1870C}
