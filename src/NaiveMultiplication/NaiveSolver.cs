@@ -10,7 +10,7 @@ namespace NaiveMultiplication
         {
             if (a.Columns.Count != b.Rows.Count)
             {
-                throw new DimensionsMismatchException();
+                throw new MultiplicationDimensionsMismatchException();
             }
 
             var rows = a.Rows.Count;
