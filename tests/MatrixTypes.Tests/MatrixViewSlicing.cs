@@ -26,7 +26,7 @@ namespace MatrixTypes.Tests
             var columns = new Range(columnsStart, columnsEnd);
 
             var slice = _view.Slice(rows, columns);
-            EnsureEqual(slice, rows, columns);
+            EnsureSliceIsCorrect(slice, rows, columns);
         }
 
         [Fact]
@@ -38,15 +38,48 @@ namespace MatrixTypes.Tests
             s3[0, 0].ShouldBe(_view[2, 1]);
         }
 
-        private void EnsureEqual(MatrixView view, Range rows, Range columns)
+        [Theory, InlineData(0, 5, 0, 5), InlineData(-4, 4, -4, 4), InlineData(-3, 5, -3, 5)]
+        public void NonExtendingSlice(int rowsStart, int rowsEnd, int columnsStart, int columnsEnd)
         {
-            for (var i = 0; i < rows.Count; i++)
+            Assert.Throws<RangeAccessException>(() =>
+                _view.Slice(new Range(rowsStart, rowsEnd), new Range(columnsStart, columnsEnd)));
+        }
+
+        [Fact]
+        public void ExtendingSlice()
+        {
+            var rows = new Range(-5, 5);
+            var cols = new Range(-5, 5);
+            var m = _view.Slice(rows, cols, true);
+            
+            EnsureRangeIsCorrect(m.Rows, rows);
+            EnsureRangeIsCorrect(m.Columns, cols);
+
+            m.Slice(new Range(5, 9), new Range(5, 9)).ShouldBe(_view);
+            m[0, 0].ShouldBe(0);
+            m[3, 4].ShouldBe(0);
+            m[8, 9].ShouldBe(0);
+
+            Assert.Throws<MatrixAccessException>(() => m[10, 1]);
+            Assert.Throws<MatrixVirtualWriteException>(() => m[4, 5] = 2);
+        }
+
+        private void EnsureSliceIsCorrect(MatrixView view, Range originalRows, Range originalColumns)
+        {
+            for (var i = 0; i < originalRows.Count; i++)
             {
-                for (var j = 0; j < columns.Count; j++)
+                for (var j = 0; j < originalColumns.Count; j++)
                 {
-                    view[i, j].ShouldBe(_view[rows.Start + i, columns.Start + j]);
+                    view[i, j].ShouldBe(_view[originalRows.Start + i, originalColumns.Start + j]);
                 }
             }
+        }
+
+        private static void EnsureRangeIsCorrect(Range actual, Range expected)
+        {
+            actual.Start.ShouldBe(expected.Start);
+            actual.End.ShouldBe(expected.End);
+            actual.Count.ShouldBe(expected.Count);
         }
     }
 }

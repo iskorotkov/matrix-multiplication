@@ -21,8 +21,8 @@ namespace MatrixTypes
             Columns = columns;
         }
 
-        public MatrixView Slice(Range rows, Range columns) =>
-            new MatrixView(_data, Rows.Slice(rows), Columns.Slice(columns));
+        public MatrixView Slice(Range rows, Range columns, bool allowExtending = false) =>
+            new MatrixView(_data, Rows.Slice(rows, allowExtending), Columns.Slice(columns, allowExtending));
 
         public void ForEach(Func<int, int, double> f)
         {
@@ -95,7 +95,7 @@ namespace MatrixTypes
                 column += Columns.Start;
 
                 EnsureIndexInRange(row, column);
-                return _data[row, column];
+                return IsCellVirtual(row, column) ? 0 : _data[row, column];
             }
             set
             {
@@ -103,6 +103,11 @@ namespace MatrixTypes
                 column += Columns.Start;
 
                 EnsureIndexInRange(row, column);
+                if (IsCellVirtual(row, column))
+                {
+                    throw new MatrixVirtualWriteException();
+                }
+
                 _data[row, column] = value;
             }
         }
@@ -119,5 +124,11 @@ namespace MatrixTypes
                 throw new MatrixAccessException(nameof(column));
             }
         }
+
+        private bool IsCellVirtual(int row, int column)
+            => row < 0
+               || row > _data.GetUpperBound(0)
+               || column < 0
+               || column > _data.GetUpperBound(1);
     }
 }
