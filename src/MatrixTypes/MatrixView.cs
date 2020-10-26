@@ -35,7 +35,7 @@ namespace MatrixTypes
             }
         }
 
-        public static double[,] operator +(MatrixView a, MatrixView b)
+        public static MatrixView operator +(MatrixView a, MatrixView b)
         {
             if (a.Rows.Count != b.Rows.Count)
             {
@@ -58,10 +58,10 @@ namespace MatrixTypes
                 }
             }
 
-            return result;
+            return new MatrixView(result);
         }
 
-        public static double[,] operator -(MatrixView a, MatrixView b)
+        public static MatrixView operator -(MatrixView a, MatrixView b)
         {
             if (a.Rows.Count != b.Rows.Count)
             {
@@ -84,7 +84,7 @@ namespace MatrixTypes
                 }
             }
 
-            return result;
+            return new MatrixView(result);
         }
 
         public double this[int row, int column]
@@ -130,5 +130,19 @@ namespace MatrixTypes
                || row > _data.GetUpperBound(0)
                || column < 0
                || column > _data.GetUpperBound(1);
+
+        public double[,] ToArray()
+        {
+            var result = new double[Rows.Count, Columns.Count];
+            for (var row = 0; row < Rows.Count; row++)
+            {
+                for (var col = 0; col < Columns.Count; col++)
+                {
+                    result[row, col] = this[row, col];
+                }
+            }
+
+            return result;
+        }
     }
 }

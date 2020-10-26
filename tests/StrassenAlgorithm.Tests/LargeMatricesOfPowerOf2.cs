@@ -1,6 +1,5 @@
 ﻿using MathNet.Numerics.LinearAlgebra.Double;
 using MatrixTypes;
-using Shouldly;
 using TestGenerator;
 using Xunit;
 
@@ -19,7 +18,7 @@ namespace StrassenAlgorithm.Tests
             var expected = DenseMatrix.OfArray(a) * DenseMatrix.OfArray(b);
             var actual = _solver.Multiply(a, b);
 
-            EnsureAlmostEqual(actual, expected.ToArray());
+            actual.EnsureAlmostEqual(expected.ToArray());
         }
 
         [Theory, InlineData(2), InlineData(4), InlineData(16), InlineData(32)]
@@ -30,18 +29,7 @@ namespace StrassenAlgorithm.Tests
             var expected = DenseMatrix.OfArray(a) * DenseMatrix.OfArray(b);
             var actual = _solver.Multiply(a, b);
 
-            EnsureAlmostEqual(actual, expected.ToArray());
-        }
-
-        private static void EnsureAlmostEqual(double[,] actual, double[,] expected)
-        {
-            var diff = new MatrixView(actual) - new MatrixView(expected);
-
-            foreach (var d in diff)
-            {
-                d.ShouldBeLessThan(1e-6);
-                d.ShouldBeGreaterThan(-1e-6);
-            }
+            actual.EnsureAlmostEqual(expected.ToArray());
         }
     }
 }

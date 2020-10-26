@@ -35,7 +35,8 @@ namespace NaiveMultiplication.Tests
         [Fact]
         public void MultiplicationWithViewsGivesCorrectResult()
         {
-            _naiveSolver.Multiply(new MatrixView(_a), new MatrixView(_b)).ShouldBe(_result);
+            var actual = _naiveSolver.Multiply(new MatrixView(_a), new MatrixView(_b));
+            actual.ToArray().ShouldBe(_result);
         }
     }
 }

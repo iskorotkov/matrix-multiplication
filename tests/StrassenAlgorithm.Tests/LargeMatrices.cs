@@ -16,7 +16,7 @@ namespace StrassenAlgorithm.Tests
         {
             var (a, b) = _generator.NewMatrixPair(size, size, size);
             var expected = DenseMatrix.OfArray(a) * DenseMatrix.OfArray(b);
-            _solver.Multiply(a, b).ShouldBe(expected.ToArray());
+            _solver.Multiply(a, b).EnsureAlmostEqual(expected.ToArray());
         }
 
         [Theory, InlineData(5, 10, 15), InlineData(10, 15, 10), InlineData(20, 25, 15)]
@@ -24,7 +24,7 @@ namespace StrassenAlgorithm.Tests
         {
             var (a, b) = _generator.NewMatrixPair(aRows, aColumns, bColumns);
             var expected = DenseMatrix.OfArray(a) * DenseMatrix.OfArray(b);
-            _solver.Multiply(a, b).ShouldBe(expected.ToArray());
+            _solver.Multiply(a, b).EnsureAlmostEqual(expected.ToArray());
         }
     }
 }

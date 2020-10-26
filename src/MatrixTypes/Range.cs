@@ -15,12 +15,9 @@
 
         public Range Slice(Range range, bool allowExtending = false)
         {
-            if (!allowExtending && IsSliceOutOfRange(range))
-            {
-                throw new RangeAccessException(nameof(range));
-            }
-
-            return new Range(Start + range.Start, Start + range.End);
+            return !allowExtending && IsSliceOutOfRange(range)
+                ? throw new RangeAccessException(nameof(range))
+                : new Range(Start + range.Start, Start + range.End);
         }
 
         public bool Contains(int value) => value >= Start && value < End;

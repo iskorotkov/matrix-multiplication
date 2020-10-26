@@ -4,9 +4,9 @@ namespace NaiveMultiplication
 {
     public class NaiveSolver : ISolver
     {
-        public double[,] Multiply(double[,] a, double[,] b) => Multiply(new MatrixView(a), new MatrixView(b));
+        public double[,] Multiply(double[,] a, double[,] b) => Multiply(new MatrixView(a), new MatrixView(b)).ToArray();
 
-        public double[,] Multiply(MatrixView a, MatrixView b)
+        public MatrixView Multiply(MatrixView a, MatrixView b)
         {
             if (a.Columns.Count != b.Rows.Count)
             {
@@ -27,7 +27,7 @@ namespace NaiveMultiplication
                 }
             }
 
-            return result;
+            return new MatrixView(result);
         }
     }
 }

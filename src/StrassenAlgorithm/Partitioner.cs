@@ -1,8 +1,9 @@
 ﻿using MatrixTypes;
+using Range = MatrixTypes.Range;
 
 namespace StrassenAlgorithm
 {
-    public class Partitioner : IPartitioner
+    public class Partitioner
     {
         public MatrixDivision Subdivide(MatrixView x)
         {
@@ -17,7 +18,7 @@ namespace StrassenAlgorithm
             };
         }
 
-        private (Range Start, Range End) SubdivideRange(Range r)
+        private static (Range Start, Range End) SubdivideRange(Range r)
         {
             var start = new Range(0, r.Count / 2);
             var end = new Range(r.Count / 2, r.Count);

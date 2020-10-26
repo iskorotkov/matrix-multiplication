@@ -35,7 +35,8 @@ namespace StrassenAlgorithm.Tests
         [Fact]
         public void MultiplicationWithViewsGivesCorrectResult()
         {
-            _solver.Multiply(new MatrixView(_a), new MatrixView(_b)).ShouldBe(_result);
+            var actual = _solver.Multiply(new MatrixView(_a), new MatrixView(_b));
+            actual.ToArray().ShouldBe(_result);
         }
     }
 }
