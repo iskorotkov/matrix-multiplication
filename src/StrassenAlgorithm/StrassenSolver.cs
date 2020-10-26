@@ -23,8 +23,7 @@ namespace StrassenAlgorithm
                 return new MatrixView(new[,] {{a[0, 0] * b[0, 0]}});
             }
 
-            a = _padder.Pad(a);
-            b = _padder.Pad(b);
+            (a, b) = _padder.Pad(a, b);
 
             var (a11, a12, a21, a22) = _partitioner.Subdivide(a);
             var (b11, b12, b21, b22) = _partitioner.Subdivide(b);
