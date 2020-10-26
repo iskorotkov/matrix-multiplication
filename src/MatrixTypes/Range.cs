@@ -13,9 +13,9 @@
 
         public int Count => End - Start;
 
-        public Range Slice(Range range)
+        public Range Slice(Range range, bool allowExtending = false)
         {
-            if (!ContainsInclusive(Start + range.Start) || !ContainsInclusive(Start + range.End))
+            if (!allowExtending && IsSliceOutOfRange(range))
             {
                 throw new RangeAccessException(nameof(range));
             }
@@ -24,6 +24,9 @@
         }
 
         public bool Contains(int value) => value >= Start && value < End;
+
+        private bool IsSliceOutOfRange(Range range) =>
+            !ContainsInclusive(Start + range.Start) || !ContainsInclusive(Start + range.End);
 
         private bool ContainsInclusive(int value) => value >= Start && value <= End;
     }
