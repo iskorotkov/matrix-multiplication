@@ -33,12 +33,10 @@ namespace MatrixTypes.Tests
             _r.Slice(new Range(9, 9)).ShouldBe(new Range(9, 9));
         }
 
-        [Fact]
-        public void NonExtendingSlice()
+        [Theory, InlineData(0, 20), InlineData(-1, 5), InlineData(-2, 12)]
+        public void NonExtendingSlice(int start, int end)
         {
-            Assert.Throws<RangeAccessException>(() => _r.Slice(new Range(0, 20)));
-            Assert.Throws<RangeAccessException>(() => _r.Slice(new Range(-1, 5)));
-            Assert.Throws<RangeAccessException>(() => _r.Slice(new Range(-2, 12)));
+            Assert.Throws<RangeAccessException>(() => _r.Slice(new Range(start, end)));
         }
 
         [Fact]
