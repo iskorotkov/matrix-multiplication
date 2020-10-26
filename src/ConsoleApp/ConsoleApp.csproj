@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MatrixParser\MatrixParser.csproj" />
+    <ProjectReference Include="..\MatrixTypes\MatrixTypes.csproj" />
+    <ProjectReference Include="..\NaiveMultiplication\NaiveMultiplication.csproj" />
+    <ProjectReference Include="..\StrassenAlgorithm\StrassenAlgorithm.csproj" />
+    <ProjectReference Include="..\TestGenerator\TestGenerator.csproj" />
+  </ItemGroup>
+
+</Project>
