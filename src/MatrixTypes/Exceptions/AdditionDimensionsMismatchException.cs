@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MatrixTypes
+namespace MatrixTypes.Exceptions
 {
     public class AdditionDimensionsMismatchException : ArgumentException
     {

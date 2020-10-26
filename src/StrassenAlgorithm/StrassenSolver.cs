@@ -1,4 +1,5 @@
 ﻿using MatrixTypes;
+using MatrixTypes.Exceptions;
 
 namespace StrassenAlgorithm
 {

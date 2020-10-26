@@ -1,3 +1,4 @@
+using MatrixTypes.Exceptions;
 using Shouldly;
 using Xunit;
 

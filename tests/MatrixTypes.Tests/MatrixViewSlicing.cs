@@ -1,4 +1,5 @@
-﻿using Shouldly;
+﻿using MatrixTypes.Exceptions;
+using Shouldly;
 using Xunit;
 
 namespace MatrixTypes.Tests

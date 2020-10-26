@@ -1,4 +1,6 @@
-﻿namespace MatrixTypes
+﻿using MatrixTypes.Exceptions;
+
+namespace MatrixTypes
 {
     public readonly struct Range
     {
