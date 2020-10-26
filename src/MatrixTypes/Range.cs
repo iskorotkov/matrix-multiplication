@@ -28,5 +28,7 @@ namespace MatrixTypes
             !ContainsInclusive(Start + range.Start) || !ContainsInclusive(Start + range.End);
 
         private bool ContainsInclusive(int value) => value >= Start && value <= End;
+
+        public override string ToString() => $"{Start}..{End}";
     }
 }

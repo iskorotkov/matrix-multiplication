@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using MatrixTypes.Exceptions;
 
 namespace MatrixTypes
@@ -144,6 +145,31 @@ namespace MatrixTypes
             }
 
             return result;
+        }
+
+        public override string ToString()
+        {
+            var builder = new StringBuilder();
+            for (var i = 0; i < Rows.Count; i++)
+            {
+                builder.Append("| ");
+                for (var j = 0; j < Columns.Count; j++)
+                {
+                    builder.Append(this[i, j]);
+                    if (j != Columns.Count - 1)
+                    {
+                        builder.Append(", ");
+                    }
+                }
+
+                builder.Append(" |");
+                if (i != Rows.Count - 1)
+                {
+                    builder.Append('\n');
+                }
+            }
+
+            return builder.ToString();
         }
     }
 }
