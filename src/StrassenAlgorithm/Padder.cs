@@ -6,7 +6,7 @@ namespace StrassenAlgorithm
 {
     public class Padder
     {
-        public (MatrixView, MatrixView) Pad(MatrixView a, MatrixView b)
+        public (MatrixView, MatrixView) PadToEven(MatrixView a, MatrixView b)
         {
             var dimension = Math.Max(
                 Math.Max(a.Rows.Count, a.Columns.Count),
@@ -18,8 +18,19 @@ namespace StrassenAlgorithm
                 dimension++;
             }
 
-            var (rows, columns) = (new Range(0, dimension), new Range(0, dimension));
-            return (a.Slice(rows, columns, true), b.Slice(rows, columns, true));
+            var range = new Range(0, dimension);
+            return (a.Slice(range, range, true), b.Slice(range, range, true));
+        }
+
+        public (MatrixView, MatrixView) PadToEven(MatrixView a, MatrixView b, int target)
+        {
+            if (target % 2 == 1)
+            {
+                target++;
+            }
+
+            var range = new Range(0, target);
+            return (a.Slice(range, range, true), b.Slice(range, range, true));
         }
     }
 }
