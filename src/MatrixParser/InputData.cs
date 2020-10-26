@@ -12,5 +12,8 @@
         public double[,] A { get; }
         public double[,] B { get; }
         public int N { get; }
+
+        public void Deconstruct(out double[,] a, out double[,] b, out int n) =>
+            (a, b, n) = (A, B, N);
     }
 }
