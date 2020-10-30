@@ -1,5 +1,4 @@
-﻿using MatrixTypes.Exceptions;
-using Shouldly;
+﻿using Shouldly;
 using Xunit;
 
 namespace MatrixTypes.Tests
@@ -39,19 +38,12 @@ namespace MatrixTypes.Tests
             s3[0, 0].ShouldBe(_view[2, 1]);
         }
 
-        [Theory, InlineData(0, 5, 0, 5), InlineData(-4, 4, -4, 4), InlineData(-3, 5, -3, 5)]
-        public void NonExtendingSlice(int rowsStart, int rowsEnd, int columnsStart, int columnsEnd)
-        {
-            Assert.Throws<RangeAccessException>(() =>
-                _view.Slice(new Range(rowsStart, rowsEnd), new Range(columnsStart, columnsEnd)));
-        }
-
         [Fact]
         public void ExtendingSlice()
         {
             var rows = new Range(-5, 5);
             var cols = new Range(-5, 5);
-            var m = _view.Slice(rows, cols, true);
+            var m = _view.Slice(rows, cols);
             
             EnsureRangeIsCorrect(m.Rows, rows);
             EnsureRangeIsCorrect(m.Columns, cols);
@@ -60,9 +52,6 @@ namespace MatrixTypes.Tests
             m[0, 0].ShouldBe(0);
             m[3, 4].ShouldBe(0);
             m[8, 9].ShouldBe(0);
-
-            Assert.Throws<MatrixAccessException>(() => m[10, 1]);
-            Assert.Throws<MatrixVirtualWriteException>(() => m[4, 5] = 2);
         }
 
         private void EnsureSliceIsCorrect(MatrixView view, Range originalRows, Range originalColumns)

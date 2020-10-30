@@ -1,4 +1,3 @@
-using MatrixTypes.Exceptions;
 using Shouldly;
 using Xunit;
 
@@ -34,16 +33,10 @@ namespace MatrixTypes.Tests
             _r.Slice(new Range(9, 9)).ShouldBe(new Range(9, 9));
         }
 
-        [Theory, InlineData(0, 20), InlineData(-1, 5), InlineData(-2, 12)]
-        public void NonExtendingSlice(int start, int end)
-        {
-            Assert.Throws<RangeAccessException>(() => _r.Slice(new Range(start, end)));
-        }
-
         [Fact]
         public void ExtendingSlice()
         {
-            var slice = _r.Slice(new Range(-10, 20), true);
+            var slice = _r.Slice(new Range(-10, 20));
             slice.Start.ShouldBe(-10);
             slice.End.ShouldBe(20);
             slice.Count.ShouldBe(30);

@@ -1,5 +1,4 @@
 ﻿using MatrixTypes;
-using MatrixTypes.Exceptions;
 
 namespace NaiveMultiplication
 {
@@ -9,11 +8,6 @@ namespace NaiveMultiplication
 
         public MatrixView Multiply(MatrixView a, MatrixView b)
         {
-            if (a.Columns.Count != b.Rows.Count)
-            {
-                throw new MultiplicationDimensionsMismatchException();
-            }
-
             var rows = a.Rows.Count;
             var columns = b.Columns.Count;
             var result = new double[rows, columns];
