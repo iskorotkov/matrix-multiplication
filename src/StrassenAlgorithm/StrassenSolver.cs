@@ -6,6 +6,7 @@ namespace StrassenAlgorithm
 {
     public class StrassenSolver : ISolver
     {
+        private const int FallbackDimension = 64;
         private readonly NaiveSolver _naiveSolver = new NaiveSolver();
 
         public double[,] Multiply(double[,] a, double[,] b)
@@ -17,7 +18,7 @@ namespace StrassenAlgorithm
                 Math.Max(b.GetLength(0), b.GetLength(1))
             );
             dimension = CalculateDesiredDimension(dimension);
-            if (dimension <= 64)
+            if (dimension <= FallbackDimension)
             {
                 return _naiveSolver.Multiply(a, b);
             }
@@ -38,16 +39,13 @@ namespace StrassenAlgorithm
 
         private double[,] MultiplyRecursive(double[,] a, double[,] b)
         {
-            // a and b are always square matrices of the same dimension
-            if (a.GetLength(0) <= 64)
+            var dimension = a.GetLength(0);
+            if (dimension <= FallbackDimension)
             {
                 return _naiveSolver.Multiply(a, b);
             }
 
-            // a and b are always square matrices of the same dimension => can skip taking max dimension and use number of rows
-            var dimension = a.GetLength(0);
             dimension = CalculateDesiredDimension(dimension);
-
             var (a11, a12, a21, a22) = SubdivideSquareMatrix(a, dimension);
             var (b11, b12, b21, b22) = SubdivideSquareMatrix(b, dimension);
 
@@ -79,20 +77,22 @@ namespace StrassenAlgorithm
         private static double[,] Extend(double[,] x, int dimension)
         {
             var result = new double[dimension, dimension];
-            for (var i = 0; i < x.GetLength(0); i++)
+            var (rows, columns) = (x.GetLength(0), x.GetLength(1));
+
+            for (var i = 0; i < rows; i++)
             {
-                for (var j = 0; j < x.GetLength(1); j++)
+                for (var j = 0; j < columns; j++)
                 {
                     result[i, j] = x[i, j];
                 }
 
-                for (var j = x.GetLength(1); j < dimension; j++)
+                for (var j = columns; j < dimension; j++)
                 {
                     result[i, j] = 0d;
                 }
             }
 
-            for (var i = x.GetLength(0); i < dimension; i++)
+            for (var i = rows; i < dimension; i++)
             {
                 for (var j = 0; j < dimension; j++)
                 {
