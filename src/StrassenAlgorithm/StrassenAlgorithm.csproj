@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MatrixTypes\MatrixTypes.csproj" />
+    <ProjectReference Include="..\NaiveMultiplication\NaiveMultiplication.csproj" />
   </ItemGroup>
 
 </Project>

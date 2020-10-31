@@ -1,10 +1,13 @@
 ﻿using System;
 using MatrixTypes;
+using NaiveMultiplication;
 
 namespace StrassenAlgorithm
 {
     public class StrassenSolver : ISolver
     {
+        private readonly NaiveSolver _naiveSolver = new NaiveSolver();
+
         public double[,] Multiply(double[,] a, double[,] b)
         {
             var (rows, cols) = (a.GetLength(0), b.GetLength(1));
@@ -14,6 +17,10 @@ namespace StrassenAlgorithm
                 Math.Max(b.GetLength(0), b.GetLength(1))
             );
             dimension = CalculateDesiredDimension(dimension);
+            if (dimension <= 64)
+            {
+                return _naiveSolver.Multiply(a, b);
+            }
 
             if (a.GetLength(0) != dimension || a.GetLength(1) != dimension)
             {
@@ -29,12 +36,12 @@ namespace StrassenAlgorithm
             return Shrink(result, rows, cols, 0, 0);
         }
 
-        private static double[,] MultiplyRecursive(double[,] a, double[,] b)
+        private double[,] MultiplyRecursive(double[,] a, double[,] b)
         {
-            // a and b are always square matrices of the same dimension => check if contain single cell
-            if (a.GetLength(0) == 1)
+            // a and b are always square matrices of the same dimension
+            if (a.GetLength(0) <= 64)
             {
-                return new[,] {{a[0, 0] * b[0, 0]}};
+                return _naiveSolver.Multiply(a, b);
             }
 
             // a and b are always square matrices of the same dimension => can skip taking max dimension and use number of rows
