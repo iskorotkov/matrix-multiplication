@@ -13,7 +13,7 @@ namespace BenchmarkApp
         private readonly int _iterations;
         private const string Format = "{0}\t{1}\t{2}\t{3:n2}";
 
-        private readonly MatrixGenerator _generator = new MatrixGenerator(1e-6, 1e6);
+        private readonly MatrixGenerator _generator = new MatrixGenerator(-100, 100);
         private readonly NaiveSolver _naiveSolver = new NaiveSolver();
         private readonly StrassenSolver _strassenSolver = new StrassenSolver();
 
@@ -100,7 +100,7 @@ namespace BenchmarkApp
             var power = 1;
             while (power <= max)
             {
-                if (power >= start)
+                if (power >= start - 1)
                 {
                     yield return power + 1;
                 }
