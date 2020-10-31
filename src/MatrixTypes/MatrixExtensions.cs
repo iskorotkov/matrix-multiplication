@@ -40,17 +40,15 @@ namespace MatrixTypes
             var builder = new StringBuilder();
             for (var i = 0; i < rows; i++)
             {
-                builder.Append("| ");
                 for (var j = 0; j < cols; j++)
                 {
                     builder.Append(x[i, j]);
                     if (j != cols - 1)
                     {
-                        builder.Append(", ");
+                        builder.Append(" ");
                     }
                 }
 
-                builder.Append(" |");
                 if (i != rows - 1)
                 {
                     builder.Append('\n');
