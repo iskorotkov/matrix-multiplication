@@ -13,16 +13,16 @@ namespace StrassenAlgorithm
                 Math.Max(a.GetLength(0), a.GetLength(1)),
                 Math.Max(b.GetLength(0), b.GetLength(1))
             );
-            var desiredDimension = CalculateDesiredDimension(dimension);
+            dimension = CalculateDesiredDimension(dimension);
 
-            if (a.GetLength(0) != desiredDimension || a.GetLength(1) != desiredDimension)
+            if (a.GetLength(0) != dimension || a.GetLength(1) != dimension)
             {
-                a = Extend(a, desiredDimension, desiredDimension);
+                a = Extend(a, dimension);
             }
 
-            if (b.GetLength(0) != desiredDimension || b.GetLength(1) != desiredDimension)
+            if (b.GetLength(0) != dimension || b.GetLength(1) != dimension)
             {
-                b = Extend(b, desiredDimension, desiredDimension);
+                b = Extend(b, dimension);
             }
 
             var result = MultiplyRecursive(a, b);
@@ -38,15 +38,11 @@ namespace StrassenAlgorithm
             }
 
             // a and b are always square matrices of the same dimension => can skip taking max dimension and use number of rows
-            var actualDimension = a.GetLength(0);
-            var desiredDimension = CalculateDesiredDimension(actualDimension);
-            if (actualDimension != desiredDimension)
-            {
-                (a, b) = (Extend(a, desiredDimension, desiredDimension), Extend(b, desiredDimension, desiredDimension));
-            }
+            var dimension = a.GetLength(0);
+            dimension = CalculateDesiredDimension(dimension);
 
-            var (a11, a12, a21, a22) = SubdivideSquareMatrix(a);
-            var (b11, b12, b21, b22) = SubdivideSquareMatrix(b);
+            var (a11, a12, a21, a22) = SubdivideSquareMatrix(a, dimension);
+            var (b11, b12, b21, b22) = SubdivideSquareMatrix(b, dimension);
 
             var m1 = MultiplyRecursive(a12.Subtract(a22), b21.Add(b22));
             var m2 = MultiplyRecursive(a11.Add(a22), b11.Add(b22));
@@ -56,8 +52,8 @@ namespace StrassenAlgorithm
             var m6 = MultiplyRecursive(a22, b21.Subtract(b11));
             var m7 = MultiplyRecursive(a21.Add(a22), b11);
 
-            var c = new double[desiredDimension, desiredDimension];
-            var halfDimension = desiredDimension / 2;
+            var c = new double[dimension, dimension];
+            var halfDimension = dimension / 2;
 
             for (var i = 0; i < halfDimension; i++)
             {
@@ -73,9 +69,9 @@ namespace StrassenAlgorithm
             return c;
         }
 
-        private static double[,] Extend(double[,] x, int rows, int columns)
+        private static double[,] Extend(double[,] x, int dimension)
         {
-            var result = new double[rows, columns];
+            var result = new double[dimension, dimension];
             for (var i = 0; i < x.GetLength(0); i++)
             {
                 for (var j = 0; j < x.GetLength(1); j++)
@@ -83,15 +79,15 @@ namespace StrassenAlgorithm
                     result[i, j] = x[i, j];
                 }
 
-                for (var j = x.GetLength(1); j < columns; j++)
+                for (var j = x.GetLength(1); j < dimension; j++)
                 {
                     result[i, j] = 0d;
                 }
             }
 
-            for (var i = x.GetLength(0); i < rows; i++)
+            for (var i = x.GetLength(0); i < dimension; i++)
             {
-                for (var j = 0; j < columns; j++)
+                for (var j = 0; j < dimension; j++)
                 {
                     result[i, j] = 0d;
                 }
@@ -116,15 +112,42 @@ namespace StrassenAlgorithm
 
         private static int CalculateDesiredDimension(int dimension) => dimension % 2 == 0 ? dimension : dimension + 1;
 
-        private static (double[,] X11, double[,] X12, double[,] X21, double[,] X22) SubdivideSquareMatrix(double[,] x)
+        private static (double[,], double[,], double[,], double[,]) SubdivideSquareMatrix(double[,] x, int dimension)
         {
-            var halfSize = x.GetLength(0) / 2;
-            return (
-                Shrink(x, halfSize, halfSize, 0, 0),
-                Shrink(x, halfSize, halfSize, 0, halfSize),
-                Shrink(x, halfSize, halfSize, halfSize, 0),
-                Shrink(x, halfSize, halfSize, halfSize, halfSize)
-            );
+            var halfDimension = dimension / 2;
+            var x11 = new double[halfDimension, halfDimension];
+            var x12 = new double[halfDimension, halfDimension];
+            var x21 = new double[halfDimension, halfDimension];
+            var x22 = new double[halfDimension, halfDimension];
+
+            var xDimension = x.GetLength(0);
+            for (var i = 0; i < halfDimension; i++)
+            {
+                for (var j = 0; j < halfDimension; j++)
+                {
+                    x11[i, j] = x[i, j];
+                }
+
+                for (var j = 0; j < xDimension - halfDimension; j++)
+                {
+                    x12[i, j] = x[i, halfDimension + j];
+                }
+            }
+
+            for (var i = 0; i < xDimension - halfDimension; i++)
+            {
+                for (var j = 0; j < halfDimension; j++)
+                {
+                    x21[i, j] = x[halfDimension + i, j];
+                }
+
+                for (var j = 0; j < xDimension - halfDimension; j++)
+                {
+                    x22[i, j] = x[halfDimension + i, halfDimension + j];
+                }
+            }
+
+            return (x11, x12, x21, x22);
         }
     }
 }
