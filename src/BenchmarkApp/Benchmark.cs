@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using MatrixTypes;
 using NaiveMultiplication;
 using StrassenAlgorithm;
@@ -32,14 +31,14 @@ namespace BenchmarkApp
 
         public void StartForBestCase(int start, int max)
         {
-            var dimensions = GenerateSequence(start, max, IsPowerOfTwo);
+            var dimensions = GeneratePowersOfTwo(start, max);
             Console.WriteLine("Best case benchmark:");
             ExecuteBenchmark(dimensions);
         }
 
         public void StartForWorstCase(int start, int max)
         {
-            var dimensions = GenerateSequence(start, max, IsPowerOfTwoPlusOne);
+            var dimensions = GeneratePowersOfTwoPlusOne(start, max);
             Console.WriteLine("Worst case benchmark:");
             ExecuteBenchmark(dimensions);
         }
@@ -82,24 +81,32 @@ namespace BenchmarkApp
             }
         }
 
-        private static IEnumerable<int> GenerateSequence(int start, int max, Predicate<int> predicate) =>
-            GenerateSequence(start, max, 1).Where(value => predicate(value));
-
-        private static bool IsPowerOfTwo(int value)
+        private static IEnumerable<int> GeneratePowersOfTwo(int start, int max)
         {
-            while (value > 1)
+            var power = 1;
+            while (power <= max)
             {
-                if (value % 2 == 1)
+                if (power >= start)
                 {
-                    return false;
+                    yield return power;
                 }
 
-                value /= 2;
+                power *= 2;
             }
-
-            return true;
         }
 
-        private static bool IsPowerOfTwoPlusOne(int value) => IsPowerOfTwo(value - 1);
+        private static IEnumerable<int> GeneratePowersOfTwoPlusOne(int start, int max)
+        {
+            var power = 1;
+            while (power <= max)
+            {
+                if (power >= start)
+                {
+                    yield return power + 1;
+                }
+
+                power *= 2;
+            }
+        }
     }
 }
