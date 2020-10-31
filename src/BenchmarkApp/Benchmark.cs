@@ -11,7 +11,7 @@ namespace BenchmarkApp
     public class Benchmark
     {
         private readonly int _iterations;
-        private const string Format = "{0,-15}{1,-15}{2,-15}{3,-15:n2}";
+        private const string Format = "{0}\t{1}\t{2}\t{3:n2}";
 
         private readonly MatrixGenerator _generator = new MatrixGenerator(1e-6, 1e6);
         private readonly NaiveSolver _naiveSolver = new NaiveSolver();
