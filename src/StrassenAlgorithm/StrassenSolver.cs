@@ -7,6 +7,7 @@ namespace StrassenAlgorithm
     public class StrassenSolver : ISolver
     {
         private readonly NaiveSolver _naiveSolver = new NaiveSolver();
+        private const int FallbackDimension = 64;
 
         public double[,] Multiply(double[,] a, double[,] b)
         {
@@ -39,15 +40,13 @@ namespace StrassenAlgorithm
         private double[,] MultiplyRecursive(double[,] a, double[,] b)
         {
             // a and b are always square matrices of the same dimension
-            if (a.GetLength(0) <= 64)
+            if (a.GetLength(0) <= FallbackDimension)
             {
                 return _naiveSolver.Multiply(a, b);
             }
 
             // a and b are always square matrices of the same dimension => can skip taking max dimension and use number of rows
             var dimension = a.GetLength(0);
-            dimension = CalculateDesiredDimension(dimension);
-
             var (a11, a12, a21, a22) = SubdivideSquareMatrix(a, dimension);
             var (b11, b12, b21, b22) = SubdivideSquareMatrix(b, dimension);
 
@@ -117,7 +116,16 @@ namespace StrassenAlgorithm
             return result;
         }
 
-        private static int CalculateDesiredDimension(int dimension) => dimension % 2 == 0 ? dimension : dimension + 1;
+        private static int CalculateDesiredDimension(int dimension)
+        {
+            var power = FallbackDimension * 2;
+            while (power < dimension)
+            {
+                power *= 2;
+            }
+
+            return power;
+        }
 
         private static (double[,], double[,], double[,], double[,]) SubdivideSquareMatrix(double[,] x, int dimension)
         {
@@ -127,29 +135,13 @@ namespace StrassenAlgorithm
             var x21 = new double[halfDimension, halfDimension];
             var x22 = new double[halfDimension, halfDimension];
 
-            var xDimension = x.GetLength(0);
             for (var i = 0; i < halfDimension; i++)
             {
                 for (var j = 0; j < halfDimension; j++)
                 {
                     x11[i, j] = x[i, j];
-                }
-
-                for (var j = 0; j < xDimension - halfDimension; j++)
-                {
                     x12[i, j] = x[i, halfDimension + j];
-                }
-            }
-
-            for (var i = 0; i < xDimension - halfDimension; i++)
-            {
-                for (var j = 0; j < halfDimension; j++)
-                {
                     x21[i, j] = x[halfDimension + i, j];
-                }
-
-                for (var j = 0; j < xDimension - halfDimension; j++)
-                {
                     x22[i, j] = x[halfDimension + i, halfDimension + j];
                 }
             }
