@@ -13,25 +13,25 @@ namespace ConsoleApp
         {
             var parser = new Parser();
             var (a, b, _) = parser.Parse(Console.In);
-            var (viewA, viewB) = (new MatrixView(a), new MatrixView(b));
+            var (viewA, viewB) = (a, b);
 
             Console.WriteLine("\nA =");
-            Console.WriteLine(viewA);
+            Console.WriteLine(viewA.Format());
             Console.WriteLine("\nB =");
-            Console.WriteLine(viewB);
+            Console.WriteLine(viewB.Format());
 
             var naive = new NaiveSolver();
             Console.WriteLine("\nNaive =");
-            Console.WriteLine(naive.Multiply(viewA, viewB));
+            Console.WriteLine(naive.Multiply(viewA, viewB).Format());
 
             var strassen = new StrassenSolver();
             Console.WriteLine("\nStrassen =");
-            Console.WriteLine(strassen.Multiply(viewA, viewB));
+            Console.WriteLine(strassen.Multiply(viewA, viewB).Format());
 
             var reference = DenseMatrix.OfArray(a) * DenseMatrix.OfArray(b);
-            var referenceView = new MatrixView(reference.ToArray());
+            var referenceArray = reference.ToArray();
             Console.WriteLine("\nMathNet.Numerics =");
-            Console.WriteLine(referenceView);
+            Console.WriteLine(referenceArray.Format());
         }
     }
 }
