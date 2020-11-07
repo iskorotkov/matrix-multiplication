@@ -3,8 +3,16 @@ using MatrixParser.Exceptions;
 
 namespace MatrixParser
 {
+    /// <summary>
+    /// Parser for reading matrices
+    /// </summary>
     public class Parser
     {
+        /// <summary>
+        /// Parse two matrices from reader
+        /// </summary>
+        /// <param name="reader">Reader to use</param>
+        /// <returns>Parse result</returns>
         public InputData Parse(TextReader reader)
         {
             var line = reader.ReadLine();
@@ -18,6 +26,12 @@ namespace MatrixParser
             return new InputData(a, b, n);
         }
 
+        /// <summary>
+        /// Read single matrix of given dimension
+        /// </summary>
+        /// <param name="reader">Reader to use</param>
+        /// <param name="n">Matrix dimension</param>
+        /// <returns>Parsed matrix</returns>
         private static double[,] ReadMatrix(TextReader reader, int n)
         {
             var a = new double[n, n];

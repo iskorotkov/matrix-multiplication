@@ -2,8 +2,12 @@
 
 namespace NaiveMultiplication
 {
+    /// <summary>
+    /// Solver that multiplies matrices by definition
+    /// </summary>
     public class NaiveSolver : ISolver
     {
+        /// <inheritdoc/>
         public double[,] Multiply(double[,] a, double[,] b)
         {
             var rows = a.GetLength(0);
