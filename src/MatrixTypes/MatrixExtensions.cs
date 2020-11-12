@@ -2,39 +2,24 @@
 
 namespace MatrixTypes
 {
-    /// <summary>
-    /// Helper functions for working with matrices
-    /// </summary>
     public static class MatrixExtensions
     {
-        /// <summary>
-        /// Calculate sum of two matrices
-        /// </summary>
-        /// <param name="a">First matrix</param>
-        /// <param name="b">Second matrix</param>
-        /// <returns>Result of summation</returns>
-        public static double[,] Add(this double[,] a, double[,] b)
+        public static double[,] Add(this double[,] a, double[,] b)//4*N^2+4N+6
         {
-            var (rows, cols) = (a.GetLength(0), a.GetLength(1));
-            var result = new double[rows, cols];
-            for (var i = 0; i < rows; i++)
+            var (rows, cols) = (a.GetLength(0), a.GetLength(1)); //2
+            var result = new double[rows, cols]; //1
+            for (var i = 0; i < rows; i++) //2+2N
             {
-                for (var j = 0; j < cols; j++)
+                for (var j = 0; j < cols; j++)//(2+2N)*N
                 {
-                    result[i, j] = a[i, j] + b[i, j];
+                    result[i, j] = a[i, j] + b[i, j]; //2*N^2
                 }
             }
 
-            return result;
+            return result;//1
         }
 
-        /// <summary>
-        /// Calculate difference of two matrices
-        /// </summary>
-        /// <param name="a">First matrix</param>
-        /// <param name="b">Second matrix</param>
-        /// <returns>Result of subtraction</returns>
-        public static double[,] Subtract(this double[,] a, double[,] b)
+        public static double[,] Subtract(this double[,] a, double[,] b)//4*N^2+4N+6
         {
             var (rows, cols) = (a.GetLength(0), a.GetLength(1));
             var result = new double[rows, cols];
@@ -49,11 +34,6 @@ namespace MatrixTypes
             return result;
         }
 
-        /// <summary>
-        /// Convert matrix to string for printing
-        /// </summary>
-        /// <param name="x">Matrix to convert</param>
-        /// <returns>Nice-looking string</returns>
         public static string Format(this double[,] x)
         {
             var (rows, cols) = (x.GetLength(0), x.GetLength(1));
